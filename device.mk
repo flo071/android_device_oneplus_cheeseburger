@@ -108,7 +108,10 @@ PRODUCT_CHARACTERISTICS := nosdcard
 
 # Audio
 PRODUCT_PACKAGES += \
-    audiod \
+	android.hardware.audio@2.0-impl \
+    android.hardware.audio.effect@2.0-impl \
+    android.hardware.broadcastradio@1.0-impl \
+    android.hardware.soundtrigger@2.0-impl \
     audio.a2dp.default \
     audio.primary.msm8998 \
     audio.r_submix.default \
@@ -117,8 +120,8 @@ PRODUCT_PACKAGES += \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
-    libvolumelistener \
-    tinymix
+	libqcomvoiceprocessingdescriptors \
+    libqcompostprocbundle
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/aanc_tuning_mixer.txt:system/etc/aanc_tuning_mixer.txt \
@@ -142,17 +145,15 @@ PRODUCT_COPY_FILES += \
     $(TOPDIR)frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:/system/etc/r_submix_audio_policy_configuration.xml \
     $(TOPDIR)frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:/system/etc/usb_audio_policy_configuration.xml
 
-# ANT+
+# Bluetooth
 PRODUCT_PACKAGES += \
-    AntHalService \
-    com.dsi.ant.antradio_library \
-    libantradio
-
-PRODUCT_COPY_FILES += \
-    external/ant-wireless/antradio-library/com.dsi.ant.antradio_library.xml:system/etc/permissions/com.dsi.ant.antradio_library.xml
+    android.hardware.bluetooth@1.0-impl \
+    libbt-vendor
 
 # Camera
 PRODUCT_PACKAGES += \
+    android.hardware.camera.provider@2.4-impl \
+    camera.device@3.2-impl \
     Snap
 
 # Connectivity Engine support (CNE)
@@ -163,32 +164,45 @@ PRODUCT_PACKAGES += \
 
 # Display
 PRODUCT_PACKAGES += \
-    copybit.msm8998 \
+	android.hardware.graphics.allocator@2.0-impl \
+    android.hardware.graphics.allocator@2.0-service \
+    android.hardware.graphics.composer@2.1-impl \
+    android.hardware.graphics.mapper@2.0-impl \
+    android.hardware.memtrack@1.0-impl \
     gralloc.msm8998 \
     hwcomposer.msm8998 \
-    memtrack.msm8998 \
-    liboverlay \
-    libtinyxml
+    memtrack.msm8998
 
 # Doze mode
+#PRODUCT_PACKAGES += \
+#    OneplusDoze
+
+# DRM
 PRODUCT_PACKAGES += \
-    OneplusDoze
+    android.hardware.drm@1.0-impl
 
 # Fingerprint sensor
 PRODUCT_PACKAGES += \
-    fingerprintd \
-    OneplusPocketMode
+    android.hardware.biometrics.fingerprint@2.1-service \
+    fingerprint.msm8998
+#    OneplusPocketMode
 
 # For android_filesystem_config.h
 PRODUCT_PACKAGES += \
     fs_config_files
 
+# Gatekeeper HAL
+PRODUCT_PACKAGES += \
+    android.hardware.gatekeeper@1.0-impl
+
 # GPS
 PRODUCT_PACKAGES += \
+	android.hardware.gnss@1.0-impl \
     gps.msm8998 \
     gps.conf \
     libgnsspps \
-    libvehiclenetwork-native
+    libvehiclenetwork-native \
+    libshims_get_process_name
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/flp.conf:system/vendor/etc/flp.conf \
@@ -215,8 +229,13 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/fpc1020.kl:system/usr/keylayout/fpc1020.kl \
     $(LOCAL_PATH)/keylayout/synaptics.kl:system/usr/keylayout/synaptics.kl
 
+# Keymaster HAL
+PRODUCT_PACKAGES += \
+    android.hardware.keymaster@3.0-impl
+
 # Lights
 PRODUCT_PACKAGES += \
+	android.hardware.light@2.0-impl \
     lights.msm8998
 
 # Media
@@ -232,12 +251,10 @@ PRODUCT_COPY_FILES += \
 
 # NFC
 PRODUCT_PACKAGES += \
+	android.hardware.nfc@1.0-impl \
     com.android.nfc_extras \
-    com.nxp.nfc.nq \
-    nfc_nci.nqx.default \
-    NQNfcNci \
-    nqnfcee_access.xml \
-    nqnfcse_access.xml \
+    nfc_nci.msm8998 \
+    NfcNci \
     Tag
 
 PRODUCT_COPY_FILES += \
@@ -259,11 +276,13 @@ PRODUCT_PACKAGES += \
 
 # Power
 PRODUCT_PACKAGES += \
+	android.hardware.power@1.0-impl \
     power.msm8998
 
 # QMI
 PRODUCT_PACKAGES += \
-    libjson
+    libjson \
+    libtinyxml
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -293,36 +312,52 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/init.qcom.uicc.sh:system/etc/init.qcom.uicc.sh \
     $(LOCAL_PATH)/rootdir/etc/init.qcom.wifi.sh:system/etc/init.qcom.wifi.sh
 
+# RenderScript HAL
+PRODUCT_PACKAGES += \
+    android.hardware.renderscript@1.0-impl
+
 # RIL
 PRODUCT_PACKAGES += \
     librmnetctl \
     libxml2 \
-    libprotobuf-cpp-full
+    libprotobuf-cpp-full \
+    rild_socket
 
 # Sensors
 PRODUCT_PACKAGES += \
-    sensors.msm8998
+    android.hardware.sensors@1.0-impl
+
+# USB HAL
+PRODUCT_PACKAGES += \
+    android.hardware.usb@1.0-service
+
+# Vibrator
+PRODUCT_PACKAGES += \
+    android.hardware.vibrator@1.0-impl
+
+# WiFi HAL
+PRODUCT_PACKAGES += \
+    android.hardware.wifi@1.0-service
 
 # Wifi
 PRODUCT_PACKAGES += \
     ipacm \
     ipacm-diag \
     IPACM_cfg.xml \
-    libqsap_sdk \
-    libQWiFiSoftApCfg \
     libwpa_client \
+    wificond \
     hostapd \
     dhcpcd.conf \
     wpa_supplicant \
     wpa_supplicant.conf
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wifi/hostapd_default.conf:system/etc/hostapd/hostapd_default.conf \
-    $(LOCAL_PATH)/wifi/hostapd.accept:system/etc/hostapd/hostapd.accept \
-    $(LOCAL_PATH)/wifi/hostapd.deny:system/etc/hostapd/hostapd.deny \
     $(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini
 
 # Inherit from oppo-common
 $(call inherit-product, device/oppo/common/common.mk)
+
+# MSM8998 Headers
+PRODUCT_VENDOR_KERNEL_HEADERS := hardware/qcom/msm8998/kernel-headers
